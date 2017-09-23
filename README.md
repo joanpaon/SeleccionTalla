@@ -1,12 +1,12 @@
 <pre>
-Project .....: SeleccionEstilo
-Summary .....: Java 8 | Netbeans 8.2 | Swing [ Manual ] #10
+Project .....: SeleccionTalla
+Summary .....: Java 8 | Netbeans 8.2 | Swing [ Manual ] #11
 Creation ....: 18/05/2017
-Modification : 
-Version .....: 0.1.0
+Modification : 23/09/2017
+Version .....: 0.1.1
 Author ......: José A. Pacheco Ondoño - joanpaon@gmail.com
 Platform ....: Java 8
 IDE .........: NetBeans 8.2
-Remote ......: https://github.com/joanpaon/SeleccionEstilo.git
+Remote ......: https://github.com/joanpaon/SeleccionTalla.git
 </pre>
 

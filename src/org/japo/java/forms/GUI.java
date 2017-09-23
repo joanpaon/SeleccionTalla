@@ -18,6 +18,7 @@ package org.japo.java.forms;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,148 +26,133 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import org.japo.java.events.CEM;
+import org.japo.java.libraries.UtilesSwing;
 
 /**
  *
  * @author José A. Pacheco Ondoño - joanpaon@gmail.com
  */
 public class GUI extends JFrame {
-    // Tamaño de la ventana
-    public static final int VENTANA_ANC = 600;
-    public static final int VENTANA_ALT = 300;
 
-    // Fuente etiqueta - Parámetros
-    public static final String FNT_FAM_LBL = "Georgia";
-    public static final int FNT_EST_LBL = Font.PLAIN;
-    private int fntTamLBL = 40;
-    
-    // Fuente Controles - Parámetros
-    public static final String FNT_FAM_CTR = "Calibri";
-    public static final int FNT_EST_CTR = Font.BOLD;
-    public static final int FNT_TAM_CTR = 20;
-    
-    // Parámetros JSlider
-    public static final int SIZE_MIN = 0;
-    public static final int SIZE_MAX = 100;
-    public static final int PASO_MEN = 5;
-    public static final int PASO_MAY = 25;
-    
-    // Texto de prueba
-    public static final String TEXTO = "Érase una vez Java";
-    
-    // Componentes del GUI
-    private JLabel lblPrueba;
+    // Propiedades App
+    public static final String PRP_LOOK_AND_FEEL = "look_and_feel";
+    public static final String PRP_FAVICON = "favicon";
+
+    // Valores por Defecto
+    public static final String DEF_LOOK_AND_FEEL = UtilesSwing.LNF_NIMBUS;
+    public static final String DEF_FAVICON = "img/favicon.png";
+
+    // Referencias
+    private Properties prp;
+    private JLabel lblRotulo;
     private JSlider sldTalla;
     private JSpinner spnTalla;
-    
-    public GUI() {
-        // Inicialización PREVIA
-        beforeInit();
 
-        // Creación del interfaz
+    // Constructor
+    public GUI(Properties prp) {
+        // Inicialización Anterior
+        initBefore(prp);
+
+        // Creación Interfaz
         initComponents();
 
-        // Inicialización POSTERIOR
-        afterInit();
+        // Inicializacion Posterior
+        initAfter();
     }
 
     // Construcción del IGU
     private void initComponents() {
-        // Fuentes
-        Font fntLBL = new Font(FNT_FAM_LBL, FNT_EST_LBL, fntTamLBL);
-        Font fntCTR = new Font(FNT_FAM_CTR, FNT_EST_CTR, FNT_TAM_CTR);
-        
-        // Bordes
-        Border brdPNL = new EmptyBorder(10, 10, 10, 10);
-        Border brdLBL = new BevelBorder(BevelBorder.LOWERED);
-        
-        // Color - Etiqueta
-        Color c = new Color(184, 244, 244);
-        
-        // Gestor de Eventos de Cambio
-        CEM cem = new CEM(this);
-        
         // Etiqueta de prueba
-        lblPrueba = new JLabel(TEXTO);
-        lblPrueba.setFont(fntLBL);
-        lblPrueba.setOpaque(true);
-        lblPrueba.setBackground(c);
-        lblPrueba.setBorder(brdLBL);
-        lblPrueba.setHorizontalAlignment(JLabel.CENTER);
-        
+        lblRotulo = new JLabel();
+        lblRotulo.setFont(new Font("Georgia", Font.PLAIN, 40));
+        lblRotulo.setText("Érase una vez Java");
+        lblRotulo.setHorizontalAlignment(JLabel.CENTER);
+        lblRotulo.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        lblRotulo.setOpaque(true);
+        lblRotulo.setBackground(Color.WHITE);
+
+        // Selector de talla - Deslizador
+        sldTalla = new JSlider();
+        sldTalla.setMinimum(0);
+        sldTalla.setMaximum(100);
+        sldTalla.setValue(lblRotulo.getFont().getSize());
+        sldTalla.setFont(new Font("Cambria", Font.PLAIN, 20));
+        sldTalla.setPaintLabels(true);
+        sldTalla.setPaintTicks(true);
+        sldTalla.setMinorTickSpacing(5);
+        sldTalla.setMajorTickSpacing(25);
+        sldTalla.addChangeListener(new CEM(this));
+
+        // Cambiador de talla - Modelo
+        SpinnerNumberModel modelo = new SpinnerNumberModel();
+        modelo.setMinimum(0);
+        modelo.setMaximum(100);
+        modelo.setValue(lblRotulo.getFont().getSize());
+
+        // Selector de talla - Cambiador
+        spnTalla = new JSpinner(modelo);
+        spnTalla.setFont(new Font("Cambria", Font.PLAIN, 20));
+        spnTalla.addChangeListener(new CEM(this));
+
         // Panel de Control
         JPanel pnlControl = new JPanel();
         pnlControl.setLayout(new GridLayout(2, 1));
-        
-        // Selector de talla - Deslizador
-        sldTalla = new JSlider();
-        sldTalla.setMinimum(SIZE_MIN);
-        sldTalla.setMaximum(SIZE_MAX);
-        sldTalla.setValue(fntTamLBL);
-        sldTalla.setFont(fntCTR);
-        sldTalla.setPaintLabels(true);
-        sldTalla.setPaintTicks(true);
-        sldTalla.setMinorTickSpacing(PASO_MEN);
-        sldTalla.setMajorTickSpacing(PASO_MAY);
-        sldTalla.addChangeListener(cem);
+        pnlControl.setBorder(new EmptyBorder(10, 10, 0, 10));
         pnlControl.add(sldTalla);
-        
-        // Cambiador de talla - Modelo
-        SpinnerNumberModel modelo = new SpinnerNumberModel();
-        modelo.setMinimum(SIZE_MIN);
-        modelo.setMaximum(SIZE_MAX);
-        modelo.setValue(fntTamLBL);
-        
-        // Selector de talla - Cambiador
-        spnTalla = new JSpinner(modelo);
-        spnTalla.setFont(fntCTR);
-        spnTalla.addChangeListener(cem);
         pnlControl.add(spnTalla);
-        
-        // Panel Principal
-        JPanel pnlPpal = new JPanel();
-        pnlPpal.setLayout(new GridLayout(2, 1));
-        pnlPpal.setBorder(brdPNL);
-        pnlPpal.add(lblPrueba);
+
+        // Panel principal
+        JPanel pnlPpal = new JPanel(new GridLayout(2, 1));
+        pnlPpal.setBorder(new EmptyBorder(10, 10, 10, 10));
+        pnlPpal.add(lblRotulo);
         pnlPpal.add(pnlControl);
-        
-        
+
         // Ventana principal
-        setTitle("Selección Talla");
         setContentPane(pnlPpal);
-        setSize(VENTANA_ANC, VENTANA_ALT);
+        setTitle("Swing Manual #11");
+        setResizable(false);
+        setSize(500, 300);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    // Inicialización antes del IGU
-    private void beforeInit() {
+    // Inicialización Anterior    
+    private void initBefore(Properties prp) {
+        // Memorizar Referencia
+        this.prp = prp;
 
+        // Establecer LnF
+        UtilesSwing.establecerLnF(prp.getProperty(PRP_LOOK_AND_FEEL, DEF_LOOK_AND_FEEL));
     }
 
-    // Inicialización después del IGU
-    private void afterInit() {
-
+    // Inicialización Posterior
+    private void initAfter() {
+        // Establecer Favicon
+        UtilesSwing.establecerFavicon(this, prp.getProperty(PRP_FAVICON, DEF_FAVICON));
     }
 
     public void procesarTalla(ChangeEvent e) {
-        // Causante del evento
+        // Valores Actuales Fuente
+        String familia = lblRotulo.getFont().getFamily();
+        int estilo = lblRotulo.getFont().getStyle();
+        int talla = lblRotulo.getFont().getSize();
+
+        // Talla Seleccionada
         if (e.getSource().equals(sldTalla)) {
-            fntTamLBL = sldTalla.getValue();
-            spnTalla.setValue(fntTamLBL);
+            talla = sldTalla.getValue();
+            spnTalla.setValue(talla);
         } else {
-            fntTamLBL = (int) spnTalla.getValue();
-            sldTalla.setValue(fntTamLBL);
+            talla = (int) spnTalla.getValue();
+            sldTalla.setValue(talla);
         }
-        
+
         // Generar Fuente
-        Font f = new Font(FNT_FAM_LBL, FNT_EST_LBL, fntTamLBL);
-        
+        Font fuente = new Font(familia, estilo, talla);
+
         // Asignar Fuente
-        lblPrueba.setFont(f);
+        lblRotulo.setFont(fuente);
     }
 }
