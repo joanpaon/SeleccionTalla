@@ -23,7 +23,7 @@ import org.japo.java.forms.GUI;
  *
  * @author José A. Pacheco Ondoño - joanpaon@gmail.com
  */
-public class CEM implements ChangeListener {
+public final class CEM implements ChangeListener {
 
     // Referencia al GUI
     private final GUI gui;
