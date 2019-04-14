@@ -42,8 +42,8 @@ public final class GUI extends JFrame {
     public static final String PRP_FONT_BANNER_RESOURCE = "font_banner_resource";
     public static final String PRP_FONT_INTERFACE_RESOURCE = "font_interface_resource";
     public static final String PRP_FORM_HEIGHT = "form_height";
-    public static final String PRP_FORM_TITLE = "form_title";
     public static final String PRP_FORM_WIDTH = "form_width";
+    public static final String PRP_FORM_TITLE = "form_title";
     public static final String PRP_LOOK_AND_FEEL_PROFILE = "look_and_feel_profile";
 
     // Valores por Defecto
@@ -53,8 +53,8 @@ public final class GUI extends JFrame {
     public static final String DEF_FONT_INTERFACE_SYSTEM_NAME = UtilesSwing.FONT_LUCIDA_SANS_NAME;
     public static final String DEF_FONT_INTERFACE_FALLBACK_NAME = "Dialog";
     public static final int DEF_FORM_HEIGHT = 300;
-    public static final String DEF_FORM_TITLE = "Swing Manual #10";
     public static final int DEF_FORM_WIDTH = 500;
+    public static final String DEF_FORM_TITLE = "Swing Manual App";
     public static final String DEF_LOOK_AND_FEEL_PROFILE = UtilesSwing.LNF_WINDOWS_PROFILE;
 
     // Referencias
@@ -86,7 +86,7 @@ public final class GUI extends JFrame {
         initAfter();
     }
 
-    // Construcción del IGU
+    // Construcción del GUI
     private void initComponents() {
         // Fuentes
         fntRotulo = UtilesSwing.generarFuenteRecurso(
@@ -143,8 +143,6 @@ public final class GUI extends JFrame {
 
         // Ventana principal
         setContentPane(pnlPpal);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setResizable(false);
         try {
             int height = Integer.parseInt(prp.getProperty(PRP_FORM_HEIGHT));
@@ -154,6 +152,8 @@ public final class GUI extends JFrame {
             setSize(DEF_FORM_WIDTH, DEF_FORM_HEIGHT);
         }
         setTitle(prp.getProperty(PRP_FORM_TITLE, DEF_FORM_TITLE));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     // Inicialización Anterior    
@@ -175,7 +175,7 @@ public final class GUI extends JFrame {
     }
 
     // Respuesta al Cambio de Talla
-    public void procesarTalla(ChangeEvent e) {
+    public final void procesarTalla(ChangeEvent e) {
         // Valores Actuales Fuente
         String familia = lblRotulo.getFont().getFamily();
         int estilo = lblRotulo.getFont().getStyle();
